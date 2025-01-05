@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sapma - Educación en Línea</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #000; /* Fondo negro */
+            color: #fff; /* Texto blanco */
+        }
+        header {
+            background-color: #000; /* Fondo negro */
+            color: #fff; /* Texto blanco */
+            text-align: center;
+            padding: 1rem;
+        }
+        nav {
+            background-color: #000; /* Fondo negro */
+            display: flex;
+            justify-content: center;
+            padding: 0.5rem;
+        }
+        nav a {
+            color: #1E90FF; /* Azul */
+            text-decoration: none;
+            margin: 0 1rem;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+        }
+        nav a:hover {
+            background-color: #8B0000; /* Rojo vino */
+            color: #fff;
+        }
+        main {
+            padding: 2rem;
+            max-width: 800px;
+            margin: auto;
+            background-color: #fff; /* Fondo blanco */
+            color: #000; /* Texto negro */
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(255, 255, 255, 0.5);
+        }
+        footer {
+            text-align: center;
+            background-color: #000; /* Fondo negro */
+            color: #fff; /* Texto blanco */
+            padding: 1rem;
+            position: fixed;
+            width: 100%;
+            bottom: 0;
+        }
+        button {
+            background-color: #1E90FF; /* Azul */
+            color: #fff; /* Texto blanco */
+            border: 2px solid #000;
+            padding: 0.5rem 1rem;
+            margin-bottom: 2cm; /* Espaciado de 2 cm */
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        button:hover {
+            background-color: #8B0000; /* Rojo vino */
+            color: #fff;
+        }
+        button:disabled {
+            background-color: #ccc;
+            color: #666;
+            cursor: not-allowed;
+        }
+        .feedback {
+            margin-top: 1rem;
+            padding: 0.5rem;
+            border-radius: 5px;
+        }
+        .correct {
+            background-color: #1E90FF; /* Azul */
+            color: #fff;
+        }
+        .incorrect {
+            background-color: #8B0000; /* Rojo vino */
+            color: #fff;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Sapma - Educación en Línea</h1>
+    </header>
+    <nav>
+        <a href="#" onclick="navigateTo('/')">Inicio</a>
+        <a href="#" onclick="navigateTo('/aritmetica')">Aritmética</a>
+        <a href="#" onclick="navigateTo('/algebra')">Álgebra</a>
+        <a href="#" onclick="navigateTo('/factorizacion')">Factorización</a>
+        <a href="#" onclick="navigateTo('/geometria')">Geometría</a>
+    </nav>
+    <main id="content"></main>
+    <footer>
+        <p>Sapma © 2025</p>
+    </footer>
+    <script>
+        const examples = {
+            aritmetica: {
+                intro: "Bienvenido a Aritmética. Recuerda que cada pequeño paso te acerca a tu meta. Resolver problemas matemáticos no solo mejora tu habilidad mental, ¡también te hace más fuerte! Nunca te detengas, cada respuesta te llevará más lejos.",
+                question: "Ejemplo: Calcula 15 + 7.",
+                options: ["22", "21", "25", "20"],
+                answer: "22",
+            },
+            algebra: {
+                intro: "Bienvenido a Álgebra. Aprende a dominar el poder de las ecuaciones y descubre que resolver problemas es como desbloquear nuevos niveles en un juego. ¡Tu determinación te llevará al éxito!",
+                question: "Ejemplo: Resuelve para x: 2x + 3 = 9.",
+                options: ["3", "4", "5", "6"],
+                answer: "3",
+            },
+            factorizacion: {
+                intro: "Bienvenido a Factorización. Aprende a dividir y conquistar, descomponiendo problemas complejos en partes simples. ¡Cada problema es una nueva oportunidad para brillar!",
+                question: "Ejemplo: Factoriza 2x² - 4x.",
+                options: ["2x(x-2)", "x(2x-2)", "x²-2x", "2(x-2)"],
+                answer: "2x(x-2)",
+            },
+            geometria: {
+                intro: "Bienvenido a Geometría. Aquí transformarás líneas y ángulos en soluciones claras y precisas. La clave está en tu perspectiva. ¡Piensa en grande y alcanza el horizonte!",
+                question: "Ejemplo: Calcula el área de un triángulo con base 6 y altura 4.",
+                options: ["12", "10", "24", "14"],
+                answer: "12",
+            },
+        };
+
+        const exercises = {
+            aritmetica: Array.from({ length: 20 }, (_, i) => ({
+                question: `Ejercicio de Aritmética ${i + 1}: Calcula ${(i + 2) * 3} + ${(i + 4) * 2}.`,
+                options: [
+                    `${(i + 2) * 3 + (i + 4) * 2}`,
+                    `${(i + 2) * 3 - (i + 4) * 2}`,
+                    `${(i + 2) + (i + 4) * 3}`,
+                    `${(i + 2) * (i + 4)}`
+                ],
+                answer: `${(i + 2) * 3 + (i + 4) * 2}`
+            })),
+            algebra: Array.from({ length: 20 }, (_, i) => ({
+                question: `Ejercicio de Álgebra ${i + 1}: Resuelve para x: ${i + 1}x + ${i + 3} = ${2 * (i + 4)}.`,
+                options: [i, i + 1, i + 2, i + 3],
+                answer: `${i + 1}`
+            })),
+            factorizacion: Array.from({ length: 20 }, (_, i) => ({
+                question: `Ejercicio de Factorización ${i + 1}: Factoriza ${(i + 2)}x² - ${(i + 3)}x.`,
+                options: [
+                    `x(${i + 2}x-${i + 3})`,
+                    `(${i + 2}x+${i + 3})`,
+                    `${i + 2}(x-${i + 3})`,
+                    `x²-${i + 3}x`
+                ],
+                answer: `x(${i + 2}x-${i + 3})`
+            })),
+            geometria: Array.from({ length: 20 }, (_, i) => ({
+                question: `Ejercicio de Geometría ${i + 1}: Calcula el área de un triángulo con base ${i + 3} y altura ${i + 5}.`,
+                options: [
+                    `${((i + 3) * (i + 5)) / 2}`,
+                    `${(i + 3) + (i + 5)}`,
+                    `${(i + 3) * (i + 5)}`,
+                    `${(i + 3) - (i + 5)}`
+                ],
+                answer: `${((i + 3) * (i + 5)) / 2}`
+            }))
+        };
+
+        function navigateTo(route) {
+            const content = document.getElementById("content");
+            content.innerHTML = "";
+
+            if (route === "/") {
+                content.innerHTML = `
+                    <h2>Bienvenido a Sapma</h2>
+                    <p>Recuerda: el único límite está en tu mente. Cada error es una oportunidad de aprendizaje y cada logro, un paso hacia tu mejor versión.</p>
+                    <p>Selecciona un tema del menú para comenzar tu aprendizaje.</p>
+                `;
+            } else if (examples[route.slice(1)]) {
+                const topic = route.slice(1);
+                content.innerHTML = `
+                    <h2>${topic.charAt(0).toUpperCase() + topic.slice(1)}</h2>
+                    <p>${examples[topic].intro}</p>
+                    <p><strong>${examples[topic].question}</strong></p>
+                    ${examples[topic].options
+                        .map(
+                            (option, i) =>
+                                `<button onclick="showExampleFeedback(this, '${option}', '${examples[topic].answer}')">${option}</button>`
+                        )
+                        .join("")}
+                    <div class="feedback" id="example-feedback"></div>
+                `;
+                exercises[topic].forEach((exercise, index) => {
+                    const div = document.createElement("div");
+                    div.innerHTML = `
+                        <p>${exercise.question}</p>
+                        ${exercise.options
+                            .map(
+                                (option, i) =>
+                                    `<button onclick="checkAnswer(this, '${option}', '${exercise.answer}')">${option}</button>`
+                            )
+                            .join("")}
+                        <div class="feedback"></div>
+                    `;
+                    content.appendChild(div);
+                });
+            }
+        }
+
+        function checkAnswer(button, chosen, correct) {
+            const feedback = button.parentNode.querySelector(".feedback");
+            if (chosen === correct) {
+                feedback.textContent = "¡Correcto!";
+                feedback.className = "feedback correct";
+            } else {
+                feedback.textContent = "Incorrecto. Inténtalo nuevamente.";
+                feedback.className = "feedback incorrect";
+            }
+        }
+
+        function showExampleFeedback(button, chosen, correct) {
+            const feedback = document.getElementById("example-feedback");
+            if (chosen === correct) {
+                feedback.textContent = "¡Correcto!";
+                feedback.className = "feedback correct";
+            } else {
+                feedback.textContent = "Incorrecto. Inténtalo nuevamente.";
+                feedback.className = "feedback incorrect";
+            }
+        }
+
+        navigateTo("/");
+    </script>
+</body>
+</html>
